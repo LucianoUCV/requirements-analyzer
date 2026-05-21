@@ -3,6 +3,6 @@ venv/
 __pycache__/
 *.py[cod]
 .idea/
-data/*
+data/raw/*
 models/*
 .ipynb_checkpoints/

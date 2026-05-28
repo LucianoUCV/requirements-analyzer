@@ -5,3 +5,12 @@ seaborn
 matplotlib
 ftfy
 pandas
+torch
+transformers
+accelerate
+sentence-transformers
+spacy
+# Plus the small English model, installed separately:
+#   python -m spacy download en_core_web_sm
+# OR (if the above fails):
+#   pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl

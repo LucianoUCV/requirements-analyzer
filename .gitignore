@@ -6,3 +6,5 @@ __pycache__/
 data/raw/*
 models/*
 .ipynb_checkpoints/
+output/
+test_inputs/

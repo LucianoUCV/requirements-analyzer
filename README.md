@@ -66,7 +66,8 @@ requirements-analyzer/
 │   └── 05_duplicates_contradictions.ipynb  # SBERT + rule-based conflicts
 ├── models/                             # trained models (gitignored)
 ├── figures/                            # figures (PDF + PNG)
-├── pipeline.py                         # CLI entry point
+├── demo_inputs/                        # 8 example requirements inputs
+├── pipeline.py                         # interactive CLI entry point
 ├── requirements_analyzer/              # analyzer package (rules, analyzer, report, io)
 ├── requirements.txt
 └── README.md
@@ -93,22 +94,25 @@ Each notebook uses the fixed seed (42) and the same cross-project split. Trainin
 
 ## Usage
 
-Once the models exist under `models/`, invoke the pipeline:
+Once the models exist under `models/`, launch the pipeline with no arguments:
 
 ```bash
-# Plain text input, html output
-python pipeline.py --input my_requirements.txt --output output/report.html
-
-# CSV input, json output
-python pipeline.py --input srs.csv --output output/report.json
-
-# Customize thresholds
-python pipeline.py --input srs.csv --output output/report.html \
-    --duplicate-threshold 0.90 \
-    --contradiction-sim-min 0.70
+python pipeline.py
 ```
 
-If the CSV includes a `class` column, the pipeline runs in **verification mode** (cross-checking your labels); otherwise it classifies from scratch. The output parent folder (`output/`) is created automatically. Output formats: `.json` or `.html`.
+It asks three questions:
+
+```
+Input SRS path (.csv or .txt): demo_inputs/05_dups_and_contras.csv
+Output format (HTML/json/both): both
+Output folder [output]:
+```
+
+- **Input** accepts `.csv` (columns: `text`, optionally `id`, `project_id`, `class`) or `.txt` (one requirement per line). Non-existent paths re-prompt instead of crashing.
+- **Format** defaults to `html`. `json` emits the full structured report; `both` writes both files side by side.
+- **Output folder** defaults to `output/` and is created if missing. The report filename is auto-written from the input: `test.csv` produces `output/test.html`.
+
+If the CSV includes a `class` column, the pipeline runs in **verification mode**, otherwise it classifies from scratch.
 
 ## Methodology highlights
 

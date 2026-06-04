@@ -16,8 +16,8 @@ def main():
                         help="Cosine similarity threshold for duplicates (default: 0.85)")
     parser.add_argument("--contradiction-sim-min", type=float, default=0.65,
                         help="Lower bound for contradiction candidates (default: 0.65)")
-    parser.add_argument("--contradiction-sim-max", type=float, default=0.98,
-                        help="Upper bound for contradiction candidates (default: 0.98)")
+    parser.add_argument("--contradiction-sim-max", type=float, default=0.985,
+                        help="Upper bound for contradiction candidates (default: 0.985)")
     parser.add_argument("--quiet", action="store_true", help="Suppress progress messages")
     args = parser.parse_args()
 

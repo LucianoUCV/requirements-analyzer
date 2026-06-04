@@ -52,7 +52,10 @@ NEGATION_RE = re.compile("|".join(NEGATION_PATTERNS), re.IGNORECASE)
 QTY_RE = re.compile(
     r"(\d+(?:\.\d+)?)\s*"
     r"(seconds?|secs?|ms|milliseconds?|minutes?|mins?|hours?|hrs?|days?|weeks?|months?|years?|"
-    r"%|percent|tb|gb|mb|kb|terabytes?|gigabytes?|megabytes?|kilobytes?|\$|dollars?|usd)",
+    r"%|percent|"
+    r"tb|gb|mb|kb|terabytes?|gigabytes?|megabytes?|kilobytes?|"
+    r"\$|dollars?|usd|eur|euros?|€|gbp|£|jpy|¥|chf|cny|aud|cad|ron|lei|"
+    r"users?|requests?|connections?|sessions?|attempts?|times?)",
     re.IGNORECASE,
 )
 

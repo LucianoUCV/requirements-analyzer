@@ -115,6 +115,47 @@ def _compute_quality_score(any_smell, n, n_duplicates, n_contradictions, n_overr
     return score, band, penalties
 
 
+def _summarize_per_project(records, duplicates, contradictions):
+    by_pid = {}
+    for r in records:
+        by_pid.setdefault(r["project_id"], []).append(r)
+
+    dup_count = {}
+    for d in duplicates:
+        dup_count[d["project_id"]] = dup_count.get(d["project_id"], 0) + 1
+    con_count = {}
+    for c in contradictions:
+        con_count[c["project_id"]] = con_count.get(c["project_id"], 0) + 1
+
+    out = {}
+    for pid, recs in by_pid.items():
+        n = len(recs)
+        n_fr = sum(1 for r in recs if r["classification"]["is_functional"])
+        any_smell = sum(1 for r in recs if any(r["smells"][s] for s in SMELL_KEYS))
+        n_overridden = sum(
+            1 for r in recs
+            if r["classification"].get("verification", {}).get("status") == "overridden_by_bert"
+        )
+        n_labelled = sum(
+            1 for r in recs
+            if r["classification"].get("verification", {}).get("status") != "auto_classified"
+        )
+        score, band, _ = _compute_quality_score(
+            any_smell, n, dup_count.get(pid, 0), con_count.get(pid, 0), n_overridden, n_labelled
+        )
+        out[pid] = {
+            "n_requirements": n,
+            "n_fr": n_fr,
+            "n_nfr": n - n_fr,
+            "n_smells": any_smell,
+            "n_duplicates": dup_count.get(pid, 0),
+            "n_contradictions": con_count.get(pid, 0),
+            "quality_score": score,
+            "quality_band": band,
+        }
+    return out
+
+
 class RequirementsAnalyzer:
     def __init__(self, models_dir, sbert_model_name="sentence-transformers/all-MiniLM-L6-v2", verbose=True):
         self.models_dir = Path(models_dir)
@@ -237,7 +278,7 @@ class RequirementsAnalyzer:
         pairs.sort(key=lambda p: -p["similarity"])
         return pairs, embeddings
 
-    def find_contradictions(self, texts, project_ids, sim_min=0.65, sim_max=0.98, embeddings=None):
+    def find_contradictions(self, texts, project_ids, sim_min=0.65, sim_max=0.985, embeddings=None):
         if embeddings is None:
             embeddings = self._encode(texts)
         pairs = []
@@ -343,8 +384,8 @@ class RequirementsAnalyzer:
             out.append(result)
         return out
 
-    def analyze(self, df, dup_threshold=0.85, contradiction_sim_min=0.65, contradiction_sim_max=0.98,
-                verify_override_threshold=0.75, verify_warn_threshold=0.60):
+    def analyze(self, df, dup_threshold=0.85, contradiction_sim_min=0.65, contradiction_sim_max=0.985,
+                verify_override_threshold=0.75, verify_warn_threshold=0.55):
         texts = df["text"].tolist()
         project_ids = df["project_id"].astype(str).tolist()
         ids = df["id"].tolist() if "id" in df.columns else list(range(len(df)))
@@ -434,6 +475,8 @@ class RequirementsAnalyzer:
             any_smell, n, len(duplicates), len(contradictions), n_overridden, n_labelled
         )
 
+        per_project = _summarize_per_project(records, duplicates, contradictions)
+
         return {
             "metadata": {
                 "generated_at": datetime.now().isoformat(timespec="seconds"),
@@ -464,6 +507,7 @@ class RequirementsAnalyzer:
                 },
                 "duplicates": {"count": len(duplicates)},
                 "contradictions": {"count": len(contradictions)},
+                "per_project": per_project,
             },
             "review_suggested": review_list,
             "requirements": records,

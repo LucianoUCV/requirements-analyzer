@@ -92,6 +92,8 @@ tr:hover {{ background: #fafcfd; }}
 <tr><td>Incompleteness</td><td>{n_inc}</td><td>{pct_inc}%</td></tr>
 </table>
 
+{per_project_block}
+
 {review_block}
 
 <h2>Requirements ({n_requirements})</h2>
@@ -135,7 +137,7 @@ ADVICE_SPECS = [
      "The Type column shows the new class with '(was X)' indicating the original. "
      "Review the new labels to confirm the reassignment matches your intent."),
     ("review", "Review-suggested classifications", "warn",
-     "The model was moderately uncertain (60–70% confidence) about your provided class. "
+     "The model was moderately uncertain (55-75% confidence) about your provided class. "
      "It kept your label, but a human re-read is worthwhile to confirm - especially for "
      "edge cases between L/SE (compliance vs. security) or A/MN (availability vs. maintainability)."),
 ]
@@ -285,7 +287,33 @@ def _render_advice_section(reqs, report):
 
     if parts:
         return '<h2>Advice &amp; recommendations</h2><div class="advice-section">' + "".join(parts) + '</div>'
-    return '<h2>Advice &amp; recommendations</h2><p class="confidence">No issues detected - this SRS looks clean.</p>'
+    return '<h2>Advice &amp; recommendations</h2><p><em>None detected.</em></p>'
+
+
+def _render_per_project_block(per_project):
+    if not per_project or len(per_project) < 2:
+        return ""
+    rows = []
+    for pid, p in per_project.items():
+        band_class = "quality-" + p["quality_band"].lower().replace(" ", "-")
+        rows.append(
+            f"<tr>"
+            f"<td><strong>{_escape(pid)}</strong></td>"
+            f"<td>{p['n_requirements']}</td>"
+            f"<td>{p['n_fr']} / {p['n_nfr']}</td>"
+            f"<td>{p['n_smells']}</td>"
+            f"<td>{p['n_duplicates']}</td>"
+            f"<td>{p['n_contradictions']}</td>"
+            f"<td><span class='verify-status {band_class}'>{p['quality_score']} ({p['quality_band']})</span></td>"
+            f"</tr>"
+        )
+    return (
+        "<h3>Per-project quality</h3>"
+        "<table>"
+        "<tr><th>Project</th><th>Reqs</th><th>FR / NFR</th><th>Smells</th><th>Duplicates</th><th>Contradictions</th><th>Quality</th></tr>"
+        + "\n".join(rows) +
+        "</table>"
+    )
 
 
 def _render_verify_blocks(meta, summ, report):
@@ -349,6 +377,7 @@ def render_html(report):
     req_rows = "\n".join(_render_req_row(r) for r in reqs)
     advice_section = _render_advice_section(reqs, report)
     verify_block, review_block = _render_verify_blocks(meta, summ, report)
+    per_project_block = _render_per_project_block(summ.get("per_project", {}))
 
     return HTML_TEMPLATE.format(
         generated_at=meta["generated_at"],
@@ -377,6 +406,7 @@ def render_html(report):
         con_html=_render_pairs(report["contradictions"], reqs, "con"),
         verify_block=verify_block,
         review_block=review_block,
+        per_project_block=per_project_block,
         quality_score=quality.get("score", 0),
         quality_band=quality_band,
         quality_band_class=quality_band_class,

@@ -14,7 +14,7 @@ Four analyses, run end-to-end by `pipeline.py`:
    - `weak_verb` (multi-label BERT)
    - `incompleteness` (rule-based regex)
 3. **Duplicate detection** - for each project, finds pairs of requirements with cosine similarity ≥ threshold (default 0.85) using a pre-trained Sentence-BERT encoder (`all-MiniLM-L6-v2`).
-4. **Contradiction detection** - for each project, finds pairs with similarity in [0.65, 0.98] that exhibit at least one rule-based conflict (negation flip or numerical mismatch).
+4. **Contradiction detection** - for each project, finds pairs with similarity in [0.65, 0.985] that exhibit at least one rule-based conflict (negation flip or unit-aware numerical mismatch).
 
 ## Dataset
 

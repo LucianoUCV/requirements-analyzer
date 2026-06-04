@@ -217,11 +217,12 @@ class RequirementsAnalyzer:
             for i in range(len(batch)):
                 cls_idx = int(multi_pred[i])
                 cls_name = self.class_names[cls_idx]
+                is_functional = bool(binary_pred[i] == 0) or cls_name == "F"
                 results.append({
                     "nfr_class": cls_name,
                     "nfr_class_long": CLASS_LONG_NAMES.get(cls_name, cls_name),
                     "nfr_confidence": float(multi_probs[i, cls_idx]),
-                    "is_functional": bool(binary_pred[i] == 0),  # 0 = FR, 1 = NFR
+                    "is_functional": is_functional,
                     "fr_confidence": float(binary_probs[i, 0]),
                 })
         return results

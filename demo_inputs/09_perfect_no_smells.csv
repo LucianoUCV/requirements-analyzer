@@ -1,0 +1,11 @@
+id,text
+P01,The system shall respond to a POST /login request within 1000 milliseconds over a 10 Mbps connection.
+P02,The system shall encrypt user passwords using bcrypt with a cost factor of 12.
+P03,The system shall store user records in a PostgreSQL 16 database.
+P04,The system shall log every failed login attempt with timestamp and source IP address.
+P05,The system shall expire user sessions after exactly 30 minutes of inactivity.
+P06,The REST API shall respond to GET /users/{id} with the user record in less than 100 milliseconds.
+P07,The system shall enforce a minimum password length of 12 characters at registration.
+P08,The system shall reject usernames containing characters outside the set a-z A-Z 0-9 underscore.
+P09,The system shall emit a JSON event to Kafka topic on every new registration.
+P10,The system shall produce a daily backup of the database at 03:00 UTC to an S3 bucket.

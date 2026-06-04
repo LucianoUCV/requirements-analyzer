@@ -1,0 +1,11 @@
+id,text
+B01,The banking system shall allow customers to transfer funds between their accounts.
+B02,The system shall require two-factor authentication for all transfers above 1000 EUR.
+B03,The system shall require two-factor authentication for all transfers above 5000 EUR.
+B04,The system shall send a confirmation SMS for each transaction.
+B05,The system shall not send SMS notifications to customers.
+B06,Customers shall view transaction history for the last 24 months.
+B07,Customers shall view transaction history for the last 6 months.
+B08,The system shall freeze an account after 3 failed login attempts.
+B09,The system shall use HTTPS for all customer interactions.
+B10,The mobile app shall be available for iOS and Android.

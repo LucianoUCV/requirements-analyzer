@@ -1,0 +1,19 @@
+id,text,class
+H01,The system shall allow guests to search for available rooms by date range and number of occupants.,F
+H02,The system shall display room photos for each room type.,F
+H03,The system shall send a confirmation email to the guest after a booking is completed.,F
+H04,The system shall accept payment by credit card and PayPal.,F
+H05,The system response time for room search shall not exceed 2 seconds.,F
+H06,The system shall be available 24 hours per day with downtime not exceeding 30 minutes per month.,A
+H07,The system shall encrypt all guest personal information using AES-256.,L
+H08,The system shall comply with GDPR data retention rules.,L
+H09,The system shall support concurrent bookings by up to 500 users.,SC
+H10,The system shall allow administrators to add new room types from the admin panel.,PE
+H11,The user interface shall be available in English Spanish and Italian.,US
+H12,The system shall log all reservation changes for auditing.,O
+H13,The system shall recover from a database failure within 5 minutes.,SE
+H14,The system shall be deployable on AWS Azure and on-premise servers.,PO
+H15,The system shall handle peak loads during the summer holiday period.,SC
+H16,The system shall allow guests to cancel a reservation up to 48 hours before check-in.,F
+H17,The booking page shall be simple and easy to use.,US
+H18,The system shall process payment transactions within 3 seconds.,PE

@@ -1,0 +1,14 @@
+id,project_id,text
+P1R1,project_a,The mobile app shall display weather forecast for the next 7 days.
+P1R2,project_a,The app shall send push notifications for severe weather alerts.
+P1R3,project_a,Location services shall request user permission at first launch.
+P1R4,project_a,The app shall cache weather data for offline viewing.
+P1R5,project_a,The app shall be available for iOS 14 and later.
+P2R1,project_b,The inventory dashboard shall update stock levels in real time.
+P2R2,project_b,The system shall send a low-stock alert when an item drops below 10 units.
+P2R3,project_b,Managers shall approve purchase orders above 5000 EUR.
+P2R4,project_b,The dashboard shall display key metrics on a single page.
+P3R1,project_c,The CRM shall track customer interactions across email and phone.
+P3R2,project_c,The CRM shall integrate with Microsoft Outlook.
+P3R3,project_c,Sales reports shall be exported to PDF and Excel.
+P3R4,project_c,The CRM shall log all customer touchpoints with timestamp and user.

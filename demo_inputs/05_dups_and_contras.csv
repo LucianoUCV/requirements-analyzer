@@ -1,0 +1,13 @@
+id,text
+E01,The system shall allow users to add items to a shopping cart.
+E02,The system shall display the total price including taxes before checkout.
+E03,Users shall be able to add products to their shopping cart.
+E04,The checkout page shall load within 2 seconds.
+E05,The checkout page shall load within 5 seconds.
+E06,Users shall be able to apply discount coupons at checkout.
+E07,The system shall not allow guest users to apply discount coupons.
+E08,The system shall send an order confirmation email after purchase.
+E09,The checkout shall display the total price with taxes included.
+E10,The system shall accept Visa and Mastercard payments.
+E11,The platform shall use HTTPS for all customer-facing pages.
+E12,The system shall maintain a record of all transactions for 7 years.
